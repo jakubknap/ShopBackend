@@ -29,12 +29,16 @@ public class AdminProductController {
     @PostMapping("/admin/products")
     public AdminProduct createProduct(@RequestBody @Valid AdminProductDto adminProductDto) {
         return adminProductService.createProduct(mapAdminProduct(adminProductDto, EMPTY_ID));
-
     }
 
     @PutMapping("/admin/products/{id}")
     public AdminProduct updateProduct(@RequestBody @Valid AdminProductDto adminProductDto, @PathVariable Long id) {
         return adminProductService.updateProduct(mapAdminProduct(adminProductDto, id));
+    }
+
+    @DeleteMapping("/admin/products/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        adminProductService.deleteProduct(id);
     }
 
     private AdminProduct mapAdminProduct(AdminProductDto adminProductDto, Long id) {
