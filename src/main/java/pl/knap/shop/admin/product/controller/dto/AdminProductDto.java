@@ -23,6 +23,8 @@ public class AdminProductDto {
     @Length(min = 4)
     private String description;
 
+    private String fullDescription;
+
     @NotNull
     @Min(0)
     private BigDecimal price;
