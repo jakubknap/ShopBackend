@@ -1,9 +1,9 @@
-package pl.knap.shop.admin.product.service;
+package pl.knap.shop.admin.common.utils;
 
 import com.github.slugify.Slugify;
 import org.apache.commons.io.FilenameUtils;
 
-class UploadedFilesNameUtils {
+public class SlugifyUtils {
     public static String slugifyFileName(String filename) {
         String name = FilenameUtils.getBaseName(filename);
         Slugify slg = new Slugify();
@@ -11,5 +11,10 @@ class UploadedFilesNameUtils {
                 .withCustomReplacement("_", "-")
                 .slugify(name);
         return changedName + "." + FilenameUtils.getExtension(filename);
+    }
+
+    public static String slugifySlug(String slug) {
+        Slugify slugify = new Slugify();
+        return slugify.withCustomReplacement("_", "-").slugify(slug);
     }
 }

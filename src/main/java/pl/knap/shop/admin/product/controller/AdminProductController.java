@@ -1,6 +1,5 @@
 package pl.knap.shop.admin.product.controller;
 
-import com.github.slugify.Slugify;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -21,30 +20,34 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static pl.knap.shop.admin.common.utils.SlugifyUtils.slugifySlug;
+
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/admin/products")
 public class AdminProductController {
 
     public static final Long EMPTY_ID = null;
+
     private final AdminProductService productService;
     private final AdminProductImageService productImageService;
 
-    @GetMapping("/admin/products")
+    @GetMapping
     public Page<AdminProduct> getProducts(Pageable pageable) {
         return productService.getProducts(pageable);
     }
 
-    @GetMapping("/admin/products/{id}")
+    @GetMapping("/{id}")
     public AdminProduct getProduct(@PathVariable Long id) {
         return productService.getProduct(id);
     }
 
-    @PostMapping("/admin/products")
+    @PostMapping
     public AdminProduct createProduct(@RequestBody @Valid AdminProductDto adminProductDto) {
         return productService.createProduct(mapAdminProduct(adminProductDto, EMPTY_ID));
     }
 
-    @PutMapping("/admin/products/{id}")
+    @PutMapping("/{id}")
     public AdminProduct updateProduct(@RequestBody @Valid AdminProductDto adminProductDto, @PathVariable Long id) {
         return productService.updateProduct(mapAdminProduct(adminProductDto, id));
     }
@@ -83,10 +86,5 @@ public class AdminProductController {
                 .image(adminProductDto.getImage())
                 .slug(slugifySlug(adminProductDto.getSlug()))
                 .build();
-    }
-
-    private String slugifySlug(String slug) {
-        Slugify slugify = new Slugify();
-        return slugify.withCustomReplacement("_", "-").slugify(slug);
     }
 }

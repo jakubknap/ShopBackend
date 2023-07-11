@@ -1,4 +1,4 @@
-package pl.knap.shop.category.model;
+package pl.knap.shop.common.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Getter
-public class Category {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String description;
-    private String slug;
+    private Long productId;
+    private String authorName;
+    private String content;
 }

@@ -6,12 +6,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.knap.shop.category.model.Category;
-import pl.knap.shop.category.model.CategoryProductsDto;
+import pl.knap.shop.category.dto.CategoryProductsDto;
 import pl.knap.shop.category.repository.CategoryRepository;
-import pl.knap.shop.product.controller.dto.ProductListDto;
-import pl.knap.shop.product.model.Product;
-import pl.knap.shop.product.repository.ProductRepository;
+import pl.knap.shop.common.dto.ProductListDto;
+import pl.knap.shop.common.model.Category;
+import pl.knap.shop.common.model.Product;
+import pl.knap.shop.common.repository.ProductRepository;
 
 import java.util.List;
 
@@ -30,7 +30,12 @@ public class CategoryService {
     public CategoryProductsDto getCategoriesWithProducts(String slug, Pageable pageable) {
         Category category = categoryRepository.findBySlug(slug);
         Page<Product> page = productRepository.findAllByCategoryId(category.getId(), pageable);
-        List<ProductListDto> productListDtos = page.getContent().stream().map(product -> ProductListDto.builder()
+        List<ProductListDto> productListDtos = getProductListDtos(page);
+        return new CategoryProductsDto(category, new PageImpl<>(productListDtos, pageable, page.getTotalElements()));
+    }
+
+    private List<ProductListDto> getProductListDtos(Page<Product> page) {
+        return page.getContent().stream().map(product -> ProductListDto.builder()
                         .id(product.getId())
                         .name(product.getName())
                         .description(product.getDescription())
@@ -40,6 +45,5 @@ public class CategoryService {
                         .slug(product.getSlug())
                         .build())
                 .toList();
-        return new CategoryProductsDto(category, new PageImpl<>(productListDtos, pageable, page.getTotalElements()));
     }
 }
