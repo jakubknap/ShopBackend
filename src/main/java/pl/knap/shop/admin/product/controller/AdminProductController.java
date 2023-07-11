@@ -24,7 +24,6 @@ import static pl.knap.shop.admin.common.utils.SlugifyUtils.slugifySlug;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/products")
 public class AdminProductController {
 
     public static final Long EMPTY_ID = null;
@@ -32,22 +31,22 @@ public class AdminProductController {
     private final AdminProductService productService;
     private final AdminProductImageService productImageService;
 
-    @GetMapping
+    @GetMapping("/admin/products")
     public Page<AdminProduct> getProducts(Pageable pageable) {
         return productService.getProducts(pageable);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/admin/products/{id}")
     public AdminProduct getProduct(@PathVariable Long id) {
         return productService.getProduct(id);
     }
 
-    @PostMapping
+    @PostMapping("/admin/products")
     public AdminProduct createProduct(@RequestBody @Valid AdminProductDto adminProductDto) {
         return productService.createProduct(mapAdminProduct(adminProductDto, EMPTY_ID));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/products/{id}")
     public AdminProduct updateProduct(@RequestBody @Valid AdminProductDto adminProductDto, @PathVariable Long id) {
         return productService.updateProduct(mapAdminProduct(adminProductDto, id));
     }
