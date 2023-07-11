@@ -1,6 +1,5 @@
 package pl.knap.shop.admin.product.controller;
 
-import com.github.slugify.Slugify;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -21,11 +20,14 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static pl.knap.shop.admin.common.utils.SlugifyUtils.slugifySlug;
+
 @RestController
 @RequiredArgsConstructor
 public class AdminProductController {
 
     public static final Long EMPTY_ID = null;
+
     private final AdminProductService productService;
     private final AdminProductImageService productImageService;
 
@@ -83,10 +85,5 @@ public class AdminProductController {
                 .image(adminProductDto.getImage())
                 .slug(slugifySlug(adminProductDto.getSlug()))
                 .build();
-    }
-
-    private String slugifySlug(String slug) {
-        Slugify slugify = new Slugify();
-        return slugify.withCustomReplacement("_", "-").slugify(slug);
     }
 }

@@ -2,7 +2,7 @@ package pl.knap.shop.review.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.knap.shop.review.model.Review;
+import pl.knap.shop.common.model.Review;
 import pl.knap.shop.review.repository.ReviewRepository;
 
 @Service

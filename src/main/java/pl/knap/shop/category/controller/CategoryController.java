@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.knap.shop.category.model.Category;
-import pl.knap.shop.category.model.CategoryProductsDto;
+import pl.knap.shop.category.dto.CategoryProductsDto;
 import pl.knap.shop.category.service.CategoryService;
+import pl.knap.shop.common.model.Category;
 
 import java.util.List;
 

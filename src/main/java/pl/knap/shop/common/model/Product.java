@@ -1,10 +1,9 @@
-package pl.knap.shop.product.model;
+package pl.knap.shop.common.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.knap.shop.review.model.Review;
 
 import java.math.BigDecimal;
 import java.util.List;

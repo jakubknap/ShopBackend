@@ -1,9 +1,9 @@
-package pl.knap.shop.product.repository;
+package pl.knap.shop.common.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import pl.knap.shop.product.model.Product;
+import pl.knap.shop.common.model.Product;
 
 import java.util.Optional;
 
