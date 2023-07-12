@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.knap.shop.common.dto.ProductListDto;
 import pl.knap.shop.common.model.Product;
 import pl.knap.shop.product.service.ProductService;
+import pl.knap.shop.product.service.dto.ProductDto;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class ProductController {
     }
 
     @GetMapping("/{slug}")
-    public Product getProduct(@PathVariable @Pattern(regexp = "[a-z0-9\\-]+") @Length(max = 255) String slug) {
+    public ProductDto getProduct(@PathVariable @Pattern(regexp = "[a-z0-9\\-]+") @Length(max = 255) String slug) {
         return productService.getProduct(slug);
     }
 

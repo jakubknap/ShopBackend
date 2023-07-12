@@ -1,18 +1,12 @@
-package pl.knap.shop.common.model;
+package pl.knap.shop.admin.review.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
-@Table
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Table(name = "review")
 @Getter
-public class Review {
+public class AdminReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
