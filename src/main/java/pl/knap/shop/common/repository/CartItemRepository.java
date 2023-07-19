@@ -1,9 +1,9 @@
-package pl.knap.shop.cart.repository;
+package pl.knap.shop.common.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import pl.knap.shop.cart.model.CartItem;
+import pl.knap.shop.common.model.CartItem;
 
 import java.util.List;
 

@@ -1,27 +1,27 @@
-package pl.knap.shop.common.model;
+package pl.knap.shop.order.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
-@Table
+@Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Getter
-public class Review {
+public class OrderRow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long orderId;
     private Long productId;
-    private String authorName;
-    private String content;
-    private boolean moderated;
+    private int quantity;
+    private BigDecimal price;
 }

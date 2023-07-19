@@ -4,8 +4,8 @@ import pl.knap.shop.cart.controller.dto.CartSummaryDto;
 import pl.knap.shop.cart.controller.dto.CartSummaryItemDto;
 import pl.knap.shop.cart.controller.dto.ProductDto;
 import pl.knap.shop.cart.controller.dto.SummaryDto;
-import pl.knap.shop.cart.model.Cart;
-import pl.knap.shop.cart.model.CartItem;
+import pl.knap.shop.common.model.Cart;
+import pl.knap.shop.common.model.CartItem;
 import pl.knap.shop.common.model.Product;
 
 import java.math.BigDecimal;
