@@ -13,4 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class InitOrder {
     private List<Shipment> shipments;
+    private List<Payment> payments;
 }

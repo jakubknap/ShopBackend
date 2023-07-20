@@ -9,11 +9,13 @@ import pl.knap.shop.common.repository.CartItemRepository;
 import pl.knap.shop.common.repository.CartRepository;
 import pl.knap.shop.order.model.Order;
 import pl.knap.shop.order.model.OrderRow;
+import pl.knap.shop.order.model.Payment;
 import pl.knap.shop.order.model.Shipment;
 import pl.knap.shop.order.model.dto.OrderDto;
 import pl.knap.shop.order.model.dto.OrderSummary;
 import pl.knap.shop.order.repository.OrderRepository;
 import pl.knap.shop.order.repository.OrderRowRepository;
+import pl.knap.shop.order.repository.PaymentRepository;
 import pl.knap.shop.order.repository.ShipmentRepository;
 
 import java.math.BigDecimal;
@@ -32,11 +34,13 @@ public class OrderService {
     private final OrderRowRepository orderRowRepository;
     private final CartItemRepository cartItemRepository;
     private final ShipmentRepository shipmentRepository;
+    private final PaymentRepository paymentRepository;
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto) {
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
         Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
+        Payment payment = paymentRepository.findById(orderDto.getPaymentId()).orElseThrow();
         Order order = Order.builder()
                 .firstname(orderDto.getFirstname())
                 .lastname(orderDto.getLastname())
@@ -48,6 +52,7 @@ public class OrderService {
                 .placeDate(LocalDateTime.now())
                 .orderStatus(NEW)
                 .grossValue(calculateGrossValue(cart.getItems(), shipment))
+                .payment(payment)
                 .build();
         Order newOrder = orderRepository.save(order);
         saveOrderRows(cart, newOrder.getId(), shipment);
@@ -58,6 +63,7 @@ public class OrderService {
                 .placeDate(newOrder.getPlaceDate())
                 .status(newOrder.getOrderStatus())
                 .grossValue(newOrder.getGrossValue())
+                .payment(payment)
                 .build();
     }
 
