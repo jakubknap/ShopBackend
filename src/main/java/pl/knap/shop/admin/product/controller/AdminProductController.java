@@ -7,14 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.knap.shop.admin.product.controller.dto.AdminProductDto;
 import pl.knap.shop.admin.product.controller.dto.UploadResponse;
@@ -76,21 +69,22 @@ public class AdminProductController {
     @GetMapping("/data/productImage/{filename}")
     public ResponseEntity<Resource> serveFiles(@PathVariable String filename) throws IOException {
         Resource resource = productImageService.serveFiles(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(filename)))
-                .body(resource);
+        return ResponseEntity.ok()
+                             .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(filename)))
+                             .body(resource);
     }
 
     private AdminProduct mapAdminProduct(AdminProductDto adminProductDto, Long id) {
         return AdminProduct.builder()
-                .id(id)
-                .name(adminProductDto.getName())
-                .description(adminProductDto.getDescription())
-                .fullDescription(adminProductDto.getFullDescription())
-                .categoryId(adminProductDto.getCategoryId())
-                .price(adminProductDto.getPrice())
-                .currency(adminProductDto.getCurrency())
-                .image(adminProductDto.getImage())
-                .slug(slugifySlug(adminProductDto.getSlug()))
-                .build();
+                           .id(id)
+                           .name(adminProductDto.getName())
+                           .description(adminProductDto.getDescription())
+                           .fullDescription(adminProductDto.getFullDescription())
+                           .categoryId(adminProductDto.getCategoryId())
+                           .price(adminProductDto.getPrice())
+                           .currency(adminProductDto.getCurrency())
+                           .image(adminProductDto.getImage())
+                           .slug(slugifySlug(adminProductDto.getSlug()))
+                           .build();
     }
 }

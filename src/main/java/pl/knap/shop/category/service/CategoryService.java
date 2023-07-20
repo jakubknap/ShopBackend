@@ -35,15 +35,17 @@ public class CategoryService {
     }
 
     private List<ProductListDto> getProductListDtos(Page<Product> page) {
-        return page.getContent().stream().map(product -> ProductListDto.builder()
-                        .id(product.getId())
-                        .name(product.getName())
-                        .description(product.getDescription())
-                        .price(product.getPrice())
-                        .currency(product.getCurrency())
-                        .image(product.getImage())
-                        .slug(product.getSlug())
-                        .build())
-                .toList();
+        return page.getContent()
+                   .stream()
+                   .map(product -> ProductListDto.builder()
+                                                 .id(product.getId())
+                                                 .name(product.getName())
+                                                 .description(product.getDescription())
+                                                 .price(product.getPrice())
+                                                 .currency(product.getCurrency())
+                                                 .image(product.getImage())
+                                                 .slug(product.getSlug())
+                                                 .build())
+                   .toList();
     }
 }

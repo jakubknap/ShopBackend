@@ -34,8 +34,12 @@ class CartServiceTest {
         //given
         Long cartId = 0L;
         CartProductDto cartProductDto = new CartProductDto(1L, 1);
-        when(productRepository.findById(1L)).thenReturn(Optional.of(Product.builder().id(1L).build()));
-        when(cartRepository.save(any())).thenReturn(Cart.builder().id(1L).build());
+        when(productRepository.findById(1L)).thenReturn(Optional.of(Product.builder()
+                                                                           .id(1L)
+                                                                           .build()));
+        when(cartRepository.save(any())).thenReturn(Cart.builder()
+                                                        .id(1L)
+                                                        .build());
         //when
         Cart result = cartService.addProductToCart(cartId, cartProductDto);
         //then
@@ -48,8 +52,12 @@ class CartServiceTest {
         //given
         Long cartId = 1L;
         CartProductDto cartProductDto = new CartProductDto(1L, 1);
-        when(productRepository.findById(1L)).thenReturn(Optional.of(Product.builder().id(1L).build()));
-        when(cartRepository.findById(cartId)).thenReturn(Optional.of(Cart.builder().id(1L).build()));
+        when(productRepository.findById(1L)).thenReturn(Optional.of(Product.builder()
+                                                                           .id(1L)
+                                                                           .build()));
+        when(cartRepository.findById(cartId)).thenReturn(Optional.of(Cart.builder()
+                                                                         .id(1L)
+                                                                         .build()));
         //when
         Cart result = cartService.addProductToCart(cartId, cartProductDto);
         //then

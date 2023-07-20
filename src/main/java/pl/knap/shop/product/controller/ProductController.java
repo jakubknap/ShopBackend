@@ -39,15 +39,17 @@ public class ProductController {
     }
 
     private List<ProductListDto> getProductListDtos(Page<Product> products) {
-        return products.getContent().stream().map(product -> ProductListDto.builder()
-                        .id(product.getId())
-                        .name(product.getName())
-                        .description(product.getDescription())
-                        .price(product.getPrice())
-                        .currency(product.getCurrency())
-                        .image(product.getImage())
-                        .slug(product.getSlug())
-                        .build())
-                .toList();
+        return products.getContent()
+                       .stream()
+                       .map(product -> ProductListDto.builder()
+                                                     .id(product.getId())
+                                                     .name(product.getName())
+                                                     .description(product.getDescription())
+                                                     .price(product.getPrice())
+                                                     .currency(product.getCurrency())
+                                                     .image(product.getImage())
+                                                     .slug(product.getSlug())
+                                                     .build())
+                       .toList();
     }
 }

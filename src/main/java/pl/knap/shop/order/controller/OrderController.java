@@ -2,11 +2,7 @@ package pl.knap.shop.order.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.knap.shop.order.model.InitOrder;
 import pl.knap.shop.order.model.dto.OrderDto;
 import pl.knap.shop.order.model.dto.OrderSummary;
@@ -31,8 +27,8 @@ public class OrderController {
     @GetMapping("/initData")
     public InitOrder initData() {
         return InitOrder.builder()
-                .shipments(shipmentService.getShipments())
-                .payments(paymentService.getPayments())
-                .build();
+                        .shipments(shipmentService.getShipments())
+                        .payments(paymentService.getPayments())
+                        .build();
     }
 }

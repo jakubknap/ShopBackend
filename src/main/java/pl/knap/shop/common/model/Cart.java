@@ -1,12 +1,6 @@
 package pl.knap.shop.common.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,11 +30,11 @@ public class Cart {
             items = new ArrayList<>();
         }
         items.stream()
-                .filter(item -> Objects.equals(cartItem.getProduct().getId(), item.getProduct().getId()))
-                .findFirst()
-                .ifPresentOrElse(
-                        item -> item.setQuantity(item.getQuantity() + 1),
-                        () -> items.add(cartItem)
-                );
+             .filter(item -> Objects.equals(cartItem.getProduct()
+                                                    .getId(),
+                                            item.getProduct()
+                                                .getId()))
+             .findFirst()
+             .ifPresentOrElse(item -> item.setQuantity(item.getQuantity() + 1), () -> items.add(cartItem));
     }
 }

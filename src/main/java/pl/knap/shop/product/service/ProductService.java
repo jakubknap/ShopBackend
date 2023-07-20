@@ -26,38 +26,37 @@ public class ProductService {
     }
 
     public ProductDto getProduct(String slug) {
-        Product product = productRepository.findBySlug(slug).orElseThrow();
+        Product product = productRepository.findBySlug(slug)
+                                           .orElseThrow();
         List<Review> reviews = reviewRepository.findAllByProductIdAndModerated(product.getId(), true);
         return mapToProductDto(product, reviews);
     }
 
     @Transactional(readOnly = true)
-    private ProductDto mapToProductDto(Product product, List<Review>
-            reviews) {
+    private ProductDto mapToProductDto(Product product, List<Review> reviews) {
         return ProductDto.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .categoryId(product.getCategoryId())
-                .description(product.getDescription())
-                .fullDescription(product.getFullDescription())
-                .price(product.getPrice())
-                .currency(product.getCurrency())
-                .image(product.getImage())
-                .slug(product.getSlug())
-                .reviews(maptoReviewDtoList(reviews))
-                .build();
+                         .id(product.getId())
+                         .name(product.getName())
+                         .categoryId(product.getCategoryId())
+                         .description(product.getDescription())
+                         .fullDescription(product.getFullDescription())
+                         .price(product.getPrice())
+                         .currency(product.getCurrency())
+                         .image(product.getImage())
+                         .slug(product.getSlug())
+                         .reviews(maptoReviewDtoList(reviews))
+                         .build();
     }
 
     private List<ReviewDto> maptoReviewDtoList(List<Review> reviews) {
-        return reviews.stream().map(
-                        review ->
-                                ReviewDto.builder()
-                                        .id(review.getId())
-                                        .productId(review.getProductId())
-                                        .authorName(review.getAuthorName())
-                                        .content(review.getContent())
-                                        .moderate(review.isModerated())
-                                        .build())
-                .toList();
+        return reviews.stream()
+                      .map(review -> ReviewDto.builder()
+                                              .id(review.getId())
+                                              .productId(review.getProductId())
+                                              .authorName(review.getAuthorName())
+                                              .content(review.getContent())
+                                              .moderate(review.isModerated())
+                                              .build())
+                      .toList();
     }
 }

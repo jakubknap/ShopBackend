@@ -18,7 +18,8 @@ public class AdminProductService {
     }
 
     public AdminProduct getProduct(Long id) {
-        return adminProductRepository.findById(id).orElseThrow();
+        return adminProductRepository.findById(id)
+                                     .orElseThrow();
     }
 
     public AdminProduct createProduct(AdminProduct product) {

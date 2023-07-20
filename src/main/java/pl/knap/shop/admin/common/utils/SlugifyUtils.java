@@ -15,6 +15,7 @@ public class SlugifyUtils {
 
     public static String slugifySlug(String slug) {
         Slugify slugify = new Slugify();
-        return slugify.withCustomReplacement("_", "-").slugify(slug);
+        return slugify.withCustomReplacement("_", "-")
+                      .slugify(slug);
     }
 }

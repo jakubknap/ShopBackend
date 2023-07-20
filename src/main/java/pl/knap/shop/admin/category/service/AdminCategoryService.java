@@ -17,7 +17,8 @@ public class AdminCategoryService {
     }
 
     public AdminCategory getCategory(Long id) {
-        return categoryRepository.findById(id).orElseThrow();
+        return categoryRepository.findById(id)
+                                 .orElseThrow();
     }
 
     public AdminCategory createCategory(AdminCategory adminCategory) {
