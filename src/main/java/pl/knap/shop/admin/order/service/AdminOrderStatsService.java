@@ -42,6 +42,15 @@ public class AdminOrderStatsService {
                                  },
                                  TreeMap::new
                                        ));
+        List<Long> ordersList = result.values()
+                                      .stream()
+                                      .map(v -> v.orders())
+                                      .toList();
+        List<BigDecimal> salesList = result.values()
+                                           .stream()
+                                           .map(v -> v.sales())
+                                           .toList();
+
         return AdminOrderStats.builder()
                               .label(result.keySet()
                                            .stream()
@@ -54,6 +63,12 @@ public class AdminOrderStatsService {
                                           .stream()
                                           .map(v -> v.sales())
                                           .toList())
+                              .ordersCount(ordersList.stream()
+                                                     .reduce(Long::sum)
+                                                     .orElse(0L))
+                              .salesSum(salesList.stream()
+                                                 .reduce(BigDecimal::add)
+                                                 .orElse(BigDecimal.ZERO))
                               .build();
     }
 
