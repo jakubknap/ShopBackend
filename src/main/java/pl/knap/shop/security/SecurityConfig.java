@@ -10,10 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import javax.sql.DataSource;
+import pl.knap.shop.security.model.UserRole;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -29,7 +27,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager, UserDetailsService userDetailsService) throws Exception {
         return http.authorizeHttpRequests(auth -> auth
                            .requestMatchers("/admin/**")
-                           .authenticated()
+                           .hasRole(UserRole.ROLE_ADMIN.getRole())
                            .anyRequest()
                            .permitAll())
                    .csrf(AbstractHttpConfigurer::disable)
@@ -41,10 +39,5 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
     }
 }
