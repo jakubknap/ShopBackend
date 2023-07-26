@@ -18,7 +18,7 @@ import static pl.knap.shop.order.model.OrderStatus.NEW;
 
 public class OrderMapper {
 
-    public static Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment) {
+    public static Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment, Long userId) {
         return Order.builder()
                     .firstname(orderDto.getFirstname())
                     .lastname(orderDto.getLastname())
@@ -31,6 +31,7 @@ public class OrderMapper {
                     .orderStatus(NEW)
                     .grossValue(calculateGrossValue(cart.getItems(), shipment))
                     .payment(payment)
+                    .userId(userId)
                     .build();
     }
 

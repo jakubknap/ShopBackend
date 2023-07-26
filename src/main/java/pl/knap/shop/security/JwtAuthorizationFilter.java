@@ -9,9 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import pl.knap.shop.security.model.ShopUserDetails;
 
 import java.io.IOException;
 
@@ -45,13 +45,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_HEADER);
         if (token != null && token.startsWith(TOKEN_PREFIX)) {
-            String userName = JWT.require(Algorithm.HMAC256(secret))
-                                 .build()
-                                 .verify(token.replace(TOKEN_PREFIX, ""))
-                                 .getSubject();
-            if (userName != null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-                return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+            String id = JWT.require(Algorithm.HMAC256(secret))
+                           .build()
+                           .verify(token.replace(TOKEN_PREFIX, ""))
+                           .getSubject();
+            if (id != null) {
+                ShopUserDetails userDetails = (ShopUserDetails) userDetailsService.loadUserByUsername(id);
+                return new UsernamePasswordAuthenticationToken(userDetails.getId(), null, userDetails.getAuthorities());
             }
         }
         return null;

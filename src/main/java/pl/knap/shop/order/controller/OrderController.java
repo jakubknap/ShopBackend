@@ -2,6 +2,7 @@ package pl.knap.shop.order.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pl.knap.shop.order.model.InitOrder;
 import pl.knap.shop.order.model.dto.OrderDto;
@@ -20,8 +21,8 @@ public class OrderController {
     private final PaymentService paymentService;
 
     @PostMapping
-    public OrderSummary placeOrder(@RequestBody @Valid OrderDto orderDto) {
-        return orderService.placeOrder(orderDto);
+    public OrderSummary placeOrder(@RequestBody @Valid OrderDto orderDto, @AuthenticationPrincipal Long userId) {
+        return orderService.placeOrder(orderDto, userId);
     }
 
     @GetMapping("/initData")
