@@ -1,6 +1,6 @@
-package pl.knap.shop.admin.order.model;
+package pl.knap.shop.common.model;
 
-public enum AdminOrderStatus {
+public enum OrderStatus {
     NEW("Nowe"),
     PAID("Opłacone"),
     PROCESSING("Przetwarzane"),
@@ -11,7 +11,7 @@ public enum AdminOrderStatus {
 
     private String value;
 
-    AdminOrderStatus(String value) {
+    OrderStatus(String value) {
         this.value = value;
     }
 

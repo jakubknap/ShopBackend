@@ -2,6 +2,7 @@ package pl.knap.shop.order.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import pl.knap.shop.common.model.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

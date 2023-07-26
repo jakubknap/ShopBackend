@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.math.BigDecimal.ZERO;
-import static pl.knap.shop.order.model.OrderStatus.NEW;
+import static pl.knap.shop.common.model.OrderStatus.NEW;
 
 public class OrderMapper {
 

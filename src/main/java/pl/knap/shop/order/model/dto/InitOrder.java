@@ -1,9 +1,11 @@
-package pl.knap.shop.order.model;
+package pl.knap.shop.order.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pl.knap.shop.order.model.Payment;
+import pl.knap.shop.order.model.Shipment;
 
 import java.util.List;
 

@@ -3,9 +3,9 @@ package pl.knap.shop.admin.order.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.knap.shop.admin.order.model.AdminOrder;
-import pl.knap.shop.admin.order.model.AdminOrderStatus;
 import pl.knap.shop.admin.order.model.dto.AdminOrderStats;
 import pl.knap.shop.admin.order.repository.AdminOrderRepository;
+import pl.knap.shop.common.model.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ public class AdminOrderStatsService {
                                           .withSecond(0);
         LocalDateTime to = LocalDateTime.now();
 
-        List<AdminOrder> orders = adminOrderRepository.findAllByPlaceDateIsBetweenAndOrderStatus(from, to, AdminOrderStatus.COMPLETED);
+        List<AdminOrder> orders = adminOrderRepository.findAllByPlaceDateIsBetweenAndOrderStatus(from, to, OrderStatus.COMPLETED);
         TreeMap<Integer, AdminOrderStatsValue> result =
                 IntStream.rangeClosed(from.getDayOfMonth(), to.getDayOfMonth())
                          .boxed()

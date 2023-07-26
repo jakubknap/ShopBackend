@@ -4,12 +4,15 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import pl.knap.shop.order.model.InitOrder;
+import pl.knap.shop.order.model.dto.InitOrder;
 import pl.knap.shop.order.model.dto.OrderDto;
+import pl.knap.shop.order.model.dto.OrderListDto;
 import pl.knap.shop.order.model.dto.OrderSummary;
 import pl.knap.shop.order.service.OrderService;
 import pl.knap.shop.order.service.PaymentService;
 import pl.knap.shop.order.service.ShipmentService;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,4 +35,10 @@ public class OrderController {
                         .payments(paymentService.getPayments())
                         .build();
     }
+
+    @GetMapping
+    public List<OrderListDto> getOrders(@AuthenticationPrincipal Long userId) {
+        return orderService.getOrdersForCustomer(userId);
+    }
+
 }

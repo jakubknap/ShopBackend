@@ -11,12 +11,16 @@ import pl.knap.shop.order.model.Order;
 import pl.knap.shop.order.model.Payment;
 import pl.knap.shop.order.model.Shipment;
 import pl.knap.shop.order.model.dto.OrderDto;
+import pl.knap.shop.order.model.dto.OrderListDto;
 import pl.knap.shop.order.model.dto.OrderSummary;
 import pl.knap.shop.order.repository.OrderRepository;
 import pl.knap.shop.order.repository.OrderRowRepository;
 import pl.knap.shop.order.repository.PaymentRepository;
 import pl.knap.shop.order.repository.ShipmentRepository;
 
+import java.util.List;
+
+import static pl.knap.shop.order.service.mapper.OrderDtoMapper.mapToOrderListDto;
 import static pl.knap.shop.order.service.mapper.OrderEmailMessageMapper.createEmailMessage;
 import static pl.knap.shop.order.service.mapper.OrderMapper.*;
 
@@ -72,5 +76,12 @@ public class OrderService {
             .map(cartItem -> mapToOrderRow(orderId, cartItem))
             .peek(orderRowRepository::save)
             .toList();
+    }
+
+    public List<OrderListDto> getOrdersForCustomer(Long userId) {
+        if(userId == null){
+            throw new IllegalArgumentException("Brak użytkownika");
+        }
+        return mapToOrderListDto(orderRepository.findAllByUserId(userId));
     }
 }

@@ -30,7 +30,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static pl.knap.shop.order.model.OrderStatus.NEW;
+import static pl.knap.shop.common.model.OrderStatus.NEW;
 import static pl.knap.shop.order.model.PaymentType.BANK_TRANSFER;
 
 @ExtendWith(MockitoExtension.class)
