@@ -3,6 +3,7 @@ package pl.knap.shop.security;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,10 +27,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager, UserDetailsService userDetailsService) throws Exception {
         return http.authorizeHttpRequests(auth -> auth
-                           .requestMatchers("/admin/**")
-                           .hasRole(UserRole.ROLE_ADMIN.getRole())
-                           .anyRequest()
-                           .permitAll())
+                           .requestMatchers("/admin/**").hasRole(UserRole.ROLE_ADMIN.getRole())
+                           .requestMatchers(HttpMethod.GET, "/orders").authenticated()
+                           .anyRequest().permitAll())
                    .csrf(AbstractHttpConfigurer::disable)
                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userDetailsService, secret))
