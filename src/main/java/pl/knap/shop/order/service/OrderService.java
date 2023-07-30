@@ -1,25 +1,23 @@
 package pl.knap.shop.order.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.knap.shop.common.mail.EmailClientService;
 import pl.knap.shop.common.model.Cart;
+import pl.knap.shop.common.model.OrderStatus;
 import pl.knap.shop.common.repository.CartItemRepository;
 import pl.knap.shop.common.repository.CartRepository;
-import pl.knap.shop.order.model.Order;
-import pl.knap.shop.order.model.Payment;
-import pl.knap.shop.order.model.PaymentType;
-import pl.knap.shop.order.model.Shipment;
+import pl.knap.shop.order.model.*;
+import pl.knap.shop.order.model.dto.NotificationReceiveDto;
 import pl.knap.shop.order.model.dto.OrderDto;
 import pl.knap.shop.order.model.dto.OrderListDto;
 import pl.knap.shop.order.model.dto.OrderSummary;
-import pl.knap.shop.order.repository.OrderRepository;
-import pl.knap.shop.order.repository.OrderRowRepository;
-import pl.knap.shop.order.repository.PaymentRepository;
-import pl.knap.shop.order.repository.ShipmentRepository;
+import pl.knap.shop.order.repository.*;
 import pl.knap.shop.order.service.payment.p24.PaymentMethodP24;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static pl.knap.shop.order.service.mapper.OrderDtoMapper.mapToOrderListDto;
@@ -28,6 +26,7 @@ import static pl.knap.shop.order.service.mapper.OrderMapper.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -38,6 +37,7 @@ public class OrderService {
     private final PaymentRepository paymentRepository;
     private final EmailClientService emailClientService;
     private final PaymentMethodP24 paymentMethodP24;
+    private final OrderLogRepository orderLogRepository;
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto, Long userId) {
@@ -91,9 +91,29 @@ public class OrderService {
     }
 
     public List<OrderListDto> getOrdersForCustomer(Long userId) {
-        if(userId == null){
+        if (userId == null) {
             throw new IllegalArgumentException("Brak użytkownika");
         }
         return mapToOrderListDto(orderRepository.findAllByUserId(userId));
+    }
+
+    public Order getOrderByOrderHash(String orderHash) {
+        return orderRepository.findByOrderHash(orderHash).orElseThrow();
+    }
+
+    @Transactional
+    public void receiveNotification(String orderHash, NotificationReceiveDto receiveDto, String remoteAddr) {
+        Order order = getOrderByOrderHash(orderHash);
+        String status = paymentMethodP24.receiveNotification(order, receiveDto, remoteAddr);
+        if(status.equals("success")){
+            OrderStatus oldStatus = order.getOrderStatus();
+            order.setOrderStatus(OrderStatus.PAID);
+            orderLogRepository.save(OrderLog.builder()
+                                            .created(LocalDateTime.now())
+                                            .orderId(order.getId())
+                                            .note("Opłacono zamówienie przez Przelewy24, id płatności: " + receiveDto.getStatement() +
+                                                  " , zmieniono status z " + oldStatus.getValue() + " na " + order.getOrderStatus().getValue())
+                                            .build());
+        }
     }
 }
