@@ -9,6 +9,7 @@ import pl.knap.shop.common.repository.CartItemRepository;
 import pl.knap.shop.common.repository.CartRepository;
 import pl.knap.shop.order.model.Order;
 import pl.knap.shop.order.model.Payment;
+import pl.knap.shop.order.model.PaymentType;
 import pl.knap.shop.order.model.Shipment;
 import pl.knap.shop.order.model.dto.OrderDto;
 import pl.knap.shop.order.model.dto.OrderListDto;
@@ -17,6 +18,7 @@ import pl.knap.shop.order.repository.OrderRepository;
 import pl.knap.shop.order.repository.OrderRowRepository;
 import pl.knap.shop.order.repository.PaymentRepository;
 import pl.knap.shop.order.repository.ShipmentRepository;
+import pl.knap.shop.order.service.payment.p24.PaymentMethodP24;
 
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class OrderService {
     private final ShipmentRepository shipmentRepository;
     private final PaymentRepository paymentRepository;
     private final EmailClientService emailClientService;
+    private final PaymentMethodP24 paymentMethodP24;
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto, Long userId) {
@@ -48,7 +51,16 @@ public class OrderService {
         saveOrderRows(cart, newOrder.getId(), shipment);
         clearOrderCart(orderDto);
         sendConfirmEmail(newOrder);
-        return createOrderSummary(payment, newOrder);
+        String redirectUrl = initPaymentIfNeeded(newOrder);
+        return createOrderSummary(payment, newOrder, redirectUrl);
+    }
+
+    private String initPaymentIfNeeded(Order newOrder) {
+        if (newOrder.getPayment()
+                    .getType() == PaymentType.P24_ONLINE) {
+            return paymentMethodP24.initPayment(newOrder);
+        }
+        return null;
     }
 
     private void sendConfirmEmail(Order newOrder) {
