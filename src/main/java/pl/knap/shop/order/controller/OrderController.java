@@ -17,6 +17,8 @@ import pl.knap.shop.order.service.ShipmentService;
 
 import java.util.List;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/orders")
@@ -55,6 +57,7 @@ public class OrderController {
     public void notificationReceive(@PathVariable @Length(max = 12) String orderHash,
                                     @RequestBody NotificationReceiveDto receiveDto,
                                     HttpServletRequest request) {
-        orderService.receiveNotification(orderHash, receiveDto, request.getRemoteAddr());
+        String forwardedAddress = request.getHeader("x-forwarded-for");
+        orderService.receiveNotification(orderHash, receiveDto, isNotEmpty(forwardedAddress) ? forwardedAddress : request.getRemoteAddr());
     }
 }

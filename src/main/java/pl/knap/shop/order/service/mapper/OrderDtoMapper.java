@@ -12,7 +12,8 @@ public class OrderDtoMapper {
                                 .map(order -> new OrderListDto(
                                         order.getId(),
                                         order.getPlaceDate(),
-                                        order.getOrderStatus().getValue(),
+                                        order.getOrderStatus()
+                                             .getValue(),
                                         order.getGrossValue()))
                                 .toList();
     }
