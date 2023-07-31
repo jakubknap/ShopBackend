@@ -28,6 +28,9 @@ public class AdminProductDto {
     @Min(0)
     private BigDecimal price;
 
+    @Min(0)
+    private BigDecimal salePrice;
+
     private AdminProductCurrency currency;
 
     private String image;

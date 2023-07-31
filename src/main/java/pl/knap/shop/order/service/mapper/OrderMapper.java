@@ -48,18 +48,18 @@ public class OrderMapper {
                            .build();
     }
 
-    public static OrderRow mapToOrderRow(Long orderId, CartItem cartItem) {
+    public static OrderRow mapToOrderRowWithQuantity(Long orderId, CartItem cartItem) {
         return OrderRow.builder()
                        .quantity(cartItem.getQuantity())
                        .productId(cartItem.getProduct()
                                           .getId())
                        .price(cartItem.getProduct()
-                                      .getPrice())
+                                      .getEndPrice())
                        .orderId(orderId)
                        .build();
     }
 
-    public static OrderRow mapToOrderRowWithQuantity(Long orderId, Shipment shipment) {
+    public static OrderRow mapToOrderRow(Long orderId, Shipment shipment) {
         return OrderRow.builder()
                        .quantity(1)
                        .price(shipment.getPrice())
@@ -70,9 +70,9 @@ public class OrderMapper {
 
     private static BigDecimal calculateGrossValue(List<CartItem> items, Shipment shipment) {
         return items.stream()
-                    .map(cartItem -> cartItem.getProduct()
-                                             .getPrice()
-                                             .multiply(BigDecimal.valueOf(cartItem.getQuantity())))
+                    .map(cartItem -> (cartItem.getProduct()
+                                              .getEndPrice())
+                            .multiply(BigDecimal.valueOf(cartItem.getQuantity())))
                     .reduce(BigDecimal::add)
                     .orElse(ZERO)
                     .add(shipment.getPrice());

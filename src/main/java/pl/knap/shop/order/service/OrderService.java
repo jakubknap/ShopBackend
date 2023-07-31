@@ -79,13 +79,13 @@ public class OrderService {
     }
 
     private void saveShipmentRow(Long orderId, Shipment shipment) {
-        orderRowRepository.save(mapToOrderRowWithQuantity(orderId, shipment));
+        orderRowRepository.save(mapToOrderRow(orderId, shipment));
     }
 
     private void saveProductRows(Cart cart, Long orderId) {
         cart.getItems()
             .stream()
-            .map(cartItem -> mapToOrderRow(orderId, cartItem))
+            .map(cartItem -> mapToOrderRowWithQuantity(orderId, cartItem))
             .peek(orderRowRepository::save)
             .toList();
     }
