@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import pl.knap.shop.security.exception.RegisterException;
 import pl.knap.shop.security.model.ShopUserDetails;
 import pl.knap.shop.security.model.User;
 import pl.knap.shop.security.model.UserRole;
@@ -51,11 +52,11 @@ public class LoginController {
     public Token register(@RequestBody @Valid RegisterCredentials registerCredentials) {
         if (!registerCredentials.getPassword()
                                 .equals(registerCredentials.getRepeatPassword())) {
-            throw new IllegalArgumentException("Hasła nie są identyczne");
+            throw new RegisterException("Hasła nie są identyczne");
         }
 
         if (userRepository.existsByUsername(registerCredentials.getUsername())) {
-            throw new IllegalArgumentException("Taki użytkownik już istnieje");
+            throw new RegisterException("Taki użytkownik już istnieje");
         }
         userRepository.save(User.builder()
                                 .username(registerCredentials.getUsername())
