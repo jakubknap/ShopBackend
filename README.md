@@ -1,49 +1,94 @@
-# Library Management System - Libsma
-> The library management system consists of 2 types of users, librarian and student. The student can check out and return books, and the librarian can manipulate the data.
+# Ecommerce Shop
+> This is a fullstack online store project. The application includes the basic functions of an online store, as well as those that are a bit more advanced.  There is integration with a payment gateway in this application, sending emails and much more.
+
+The application in a nutshell has such functionalities:
+
+On the administrative side:
+- Add, edit and delete products.
+- Add, edit and delete categories
+- Order management, including exporting orders to CSV file and viewing sales statistics in the form of a chart
+- Moderation of user reviews (approval, deletion)
+
+From the user side:
+- Viewing products
+- Searching for products by category
+- Creating orders (adding products to cart, deleting, ordering)
+- Adding product reviews 
+- Viewing the list of your orders
+- Email notifications
+
+In a nutshell, this is the outline of the application. There is also a mechanism for registration, login and password reminders.
+
+I don't know how long the application will run, but there is a demo on display, available at: https://shopfrontend-production-f14c.up.railway.app/
 
 ## Table of Contents
 * [Technologies Used](#technologies-used)
-* [Features](#features)
 * [Screenshots](#screenshots)
 * [Setup](#setup)
-* [Project Status](#project-status)
 * [Contact](#contact)
 
 ## Technologies Used
-- Java - JDK version 17.0.1
-- JavaFX - version 17.0.2
-- MySQL - version 8.0.28
-
-
-## Features
-List the ready features here:
-- Application written in Polish and English
-- Borrow the book
-- Return the book
-- Add Book
-- Remove Book
-- Add users
-- Remove users
-- Data manipulation
-
+- Java - version 17.0.3.1
+- Spring Boot (with Spring Reactive Web, Spring Security, Spring Web, Spring Data JPA, Spring Test and other) - version 3.1.0
+- MySQL - version 8.0.33
+- Jjwt - version 4.0.0
+- Liquibase - version 4.23.0
+- Maven - version 4.0.0
+- Lombok - version 1.18.28
 
 ## Screenshots
-![image](https://user-images.githubusercontent.com/93727414/159259210-9645b0d0-29fe-46e8-bf10-b53bbbdf0736.png)
-![image](https://user-images.githubusercontent.com/93727414/159259291-2103d12a-e04a-4196-b1bc-a20566e59102.png)
-![image](https://user-images.githubusercontent.com/93727414/159259326-0e45dd79-3001-46f1-9561-844aef19b833.png)
-
 
 ## Setup
-- Run XAMPP
-- Login: root
-- Password:
-- Create a database called Library and import library.sql
-- Default login and password to Libsma:
-- Login: admin
-- Password: admin
+- Clone [this repository](https://github.com/jakubknap/ShopBackend.git) to your IDE (https://github.com/jakubknap/ShopBackend.git)
+- The project uses [Maven](https://maven.apache.org/) as a build tool. It already contains
+`.mvn` wrapper script, so there's no need to install maven.
+- Manually create the database at: localhost:3306
+ ```bash
+  CREATE DATABASE shop
+```
+- To take full advantage of the potential of ap liking you must run it with the following parameters:
+ ```bash
+<this is for sending email>.
 
-## Project Status
-I am not working on the project anymore because I am focusing on the Spring and Hiberante frameworks
+--spring.mail.username=<your email to gmail>
+--spring.mail.password=<your password to gmail>
+
+<If we set this propertis then we will have the "sending" of the email in the logs>.
+
+--app.email.sender=fakeEmailService
+
+<Needed for jwt>.
+
+--jwt.secret=<your secret jwt string>
+--springdoc.api-docs.enabled=true
+
+<Here are the credentials for the payment gateway przelewy24, if you don't fill it in, just the online payment won't work>.
+
+--app.payments.p24.merchantId=<your merchant id>
+--app.payments.p24.posId=<your pos id>
+--app.payments.p24.crc=<your crc>
+--app.payments.p24.secretKey=<your secret key>
+--app.payments.p24.testCrc=<your test crc>
+--app.payments.p24.testSecretKey=<your test secret key>
+```
+If something is not configured, the functionality will not work
+
+- To build and run the project execute the following command:
+```bash
+  mvn spring-boot:run
+```
+- You can check the functionality of the backend itself using swagger: http://localhost:8080/swagger-ui.html  Important! Remember about authentication
+
+- The client application runs on localhost:8080.  The administrative application is available at localhost:8080/admin
+
+## These are APIs that are available
+### Default login to admin website: login: admin, password: test
+- ![image](https://github.com/jakubknap/ShopBackend/assets/93727414/87149c07-f97d-47a1-8396-f30664e6d807)
+- ![image](https://github.com/jakubknap/ShopBackend/assets/93727414/8966e5f9-d2fa-4c7c-b6fd-0aa2599964c4)
+- ![image](https://github.com/jakubknap/ShopBackend/assets/93727414/223c601e-1f38-42a3-8be8-8d2edaf06838)
+ 
+
+
 
 
 ## Contact
