@@ -30,7 +30,7 @@ public class Product {
     private String image;
     private String slug;
 
-    public BigDecimal getEndPrice(){
+    public BigDecimal getEndPrice() {
         return salePrice != null ? salePrice : price;
     }
 }

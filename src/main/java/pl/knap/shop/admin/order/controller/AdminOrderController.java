@@ -9,10 +9,10 @@ import pl.knap.shop.admin.order.controller.dto.AdminOrderDto;
 import pl.knap.shop.admin.order.controller.mapper.AdminOrderMapper;
 import pl.knap.shop.admin.order.model.AdminOrder;
 import pl.knap.shop.admin.order.service.AdminOrderService;
-import pl.knap.shop.common.model.OrderStatus;
 
-import java.util.HashMap;
 import java.util.Map;
+
+import static pl.knap.shop.admin.order.controller.mapper.AdminOrderMapper.createOrderStatusesMap;
 
 @RestController
 @RequestMapping("/admin/orders")
@@ -39,13 +39,5 @@ public class AdminOrderController {
     @GetMapping("/initData")
     public AdminInitDataDto getInitData() {
         return new AdminInitDataDto(createOrderStatusesMap());
-    }
-
-    private Map<String, String> createOrderStatusesMap() {
-        HashMap<String, String> statuses = new HashMap<>();
-        for (OrderStatus value : OrderStatus.values()) {
-            statuses.put(value.name(), value.getValue());
-        }
-        return statuses;
     }
 }

@@ -9,7 +9,7 @@ import pl.knap.shop.admin.category.service.AdminCategoryService;
 
 import java.util.List;
 
-import static pl.knap.shop.admin.common.utils.SlugifyUtils.slugifySlug;
+import static pl.knap.shop.admin.category.controller.mapper.AdminCategoryMapper.mapToAdminCategory;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,14 +42,5 @@ public class AdminCategoryController {
     @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
-    }
-
-    private AdminCategory mapToAdminCategory(AdminCategoryDto adminCategoryDto, Long id) {
-        return AdminCategory.builder()
-                            .id(id)
-                            .name(adminCategoryDto.getName())
-                            .description(adminCategoryDto.getDescription())
-                            .slug(slugifySlug(adminCategoryDto.getSlug()))
-                            .build();
     }
 }

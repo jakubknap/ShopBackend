@@ -17,12 +17,12 @@ public class DefaultErrorHandling {
     @ResponseBody
     public ResponseEntity<DefaultErrorDto> handleNoSuchElementException(NoSuchElementException e, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                             .body(new DefaultErrorDto(
-                                     new Date(),
-                                     HttpStatus.NOT_FOUND.value(),
-                                     HttpStatus.NOT_FOUND.getReasonPhrase(),
-                                     "Zasób nie istnieje",
-                                     request.getRequestURI()
-                             ));
+                .body(new DefaultErrorDto(
+                        new Date(),
+                        HttpStatus.NOT_FOUND.value(),
+                        HttpStatus.NOT_FOUND.getReasonPhrase(),
+                        "Zasób nie istnieje",
+                        request.getRequestURI()
+                ));
     }
 }

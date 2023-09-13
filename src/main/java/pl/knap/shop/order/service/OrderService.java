@@ -42,11 +42,11 @@ public class OrderService {
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto, Long userId) {
         Cart cart = cartRepository.findById(orderDto.getCartId())
-                                  .orElseThrow();
+                .orElseThrow();
         Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId())
-                                              .orElseThrow();
+                .orElseThrow();
         Payment payment = paymentRepository.findById(orderDto.getPaymentId())
-                                           .orElseThrow();
+                .orElseThrow();
         Order newOrder = orderRepository.save(createNewOrder(orderDto, cart, shipment, payment, userId));
         saveOrderRows(cart, newOrder.getId(), shipment);
         clearOrderCart(orderDto);
@@ -57,7 +57,7 @@ public class OrderService {
 
     private String initPaymentIfNeeded(Order newOrder) {
         if (newOrder.getPayment()
-                    .getType() == PaymentType.P24_ONLINE) {
+                .getType() == PaymentType.P24_ONLINE) {
             return paymentMethodP24.initPayment(newOrder);
         }
         return null;
@@ -65,7 +65,7 @@ public class OrderService {
 
     private void sendConfirmEmail(Order newOrder) {
         emailClientService.getInstance()
-                          .send(newOrder.getEmail(), "Twoje zamówienie zostało przyjęte", createEmailMessage(newOrder));
+                .send(newOrder.getEmail(), "Twoje zamówienie zostało przyjęte", createEmailMessage(newOrder));
     }
 
     private void clearOrderCart(OrderDto orderDto) {
@@ -84,10 +84,10 @@ public class OrderService {
 
     private void saveProductRows(Cart cart, Long orderId) {
         cart.getItems()
-            .stream()
-            .map(cartItem -> mapToOrderRowWithQuantity(orderId, cartItem))
-            .peek(orderRowRepository::save)
-            .toList();
+                .stream()
+                .map(cartItem -> mapToOrderRowWithQuantity(orderId, cartItem))
+                .peek(orderRowRepository::save)
+                .toList();
     }
 
     public List<OrderListDto> getOrdersForCustomer(Long userId) {
@@ -99,7 +99,7 @@ public class OrderService {
 
     public Order getOrderByOrderHash(String orderHash) {
         return orderRepository.findByOrderHash(orderHash)
-                              .orElseThrow();
+                .orElseThrow();
     }
 
     @Transactional
@@ -110,12 +110,12 @@ public class OrderService {
             OrderStatus oldStatus = order.getOrderStatus();
             order.setOrderStatus(OrderStatus.PAID);
             orderLogRepository.save(OrderLog.builder()
-                                            .created(LocalDateTime.now())
-                                            .orderId(order.getId())
-                                            .note("Opłacono zamówienie przez Przelewy24, id płatności: " + receiveDto.getStatement() +
-                                                  " , zmieniono status z " + oldStatus.getValue() + " na " + order.getOrderStatus()
-                                                                                                                  .getValue())
-                                            .build());
+                    .created(LocalDateTime.now())
+                    .orderId(order.getId())
+                    .note("Opłacono zamówienie przez Przelewy24, id płatności: " + receiveDto.getStatement() +
+                            " , zmieniono status z " + oldStatus.getValue() + " na " + order.getOrderStatus()
+                            .getValue())
+                    .build());
         }
     }
 }

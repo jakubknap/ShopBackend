@@ -74,70 +74,70 @@ class OrderServiceTest {
         assertThat(orderSummary.getStatus()).isEqualTo(NEW);
         assertThat(orderSummary.getGrossValue()).isEqualTo(new BigDecimal("36.22"));
         assertThat(orderSummary.getPayment()
-                               .getType()).isEqualTo(BANK_TRANSFER);
+                .getType()).isEqualTo(BANK_TRANSFER);
         assertThat(orderSummary.getPayment()
-                               .getName()).isEqualTo("test payment");
+                .getName()).isEqualTo("test payment");
         assertThat(orderSummary.getPayment()
-                               .getId()).isEqualTo(1L);
+                .getId()).isEqualTo(1L);
     }
 
     private Optional<Payment> createPayment() {
         return Optional.of(Payment.builder()
-                                  .id(1L)
-                                  .name("test payment")
-                                  .type(BANK_TRANSFER)
-                                  .defaultPayment(true)
-                                  .build());
+                .id(1L)
+                .name("test payment")
+                .type(BANK_TRANSFER)
+                .defaultPayment(true)
+                .build());
     }
 
     private Optional<Shipment> createShipment() {
         return Optional.of(Shipment.builder()
-                                   .id(2L)
-                                   .price(new BigDecimal("14.00"))
-                                   .build());
+                .id(2L)
+                .price(new BigDecimal("14.00"))
+                .build());
     }
 
     private Optional<Cart> createCart() {
         return Optional.of(Cart.builder()
-                               .id(1L)
-                               .created(LocalDateTime.now())
-                               .items(createItems())
-                               .build());
+                .id(1L)
+                .created(LocalDateTime.now())
+                .items(createItems())
+                .build());
     }
 
     private List<CartItem> createItems() {
         return List.of(CartItem.builder()
-                               .id(1L)
-                               .cartId(1L)
-                               .quantity(1)
-                               .product(Product.builder()
-                                               .id(1L)
-                                               .price(new BigDecimal("11.11"))
-                                               .build())
-                               .build(),
-                       CartItem.builder()
-                               .id(2L)
-                               .cartId(1L)
-                               .quantity(1)
-                               .product(Product.builder()
-                                               .id(2L)
-                                               .price(new BigDecimal("11.11"))
-                                               .build())
-                               .build());
+                        .id(1L)
+                        .cartId(1L)
+                        .quantity(1)
+                        .product(Product.builder()
+                                .id(1L)
+                                .price(new BigDecimal("11.11"))
+                                .build())
+                        .build(),
+                CartItem.builder()
+                        .id(2L)
+                        .cartId(1L)
+                        .quantity(1)
+                        .product(Product.builder()
+                                .id(2L)
+                                .price(new BigDecimal("11.11"))
+                                .build())
+                        .build());
     }
 
     private OrderDto createOrderDto() {
         return OrderDto.builder()
-                       .firstname("firstname")
-                       .lastname("lastname")
-                       .street("street")
-                       .zipcode("zipcode")
-                       .city("city")
-                       .email("email")
-                       .phone("phone")
-                       .cartId(1L)
-                       .shipmentId(1L)
-                       .paymentId(1L)
-                       .build();
+                .firstname("firstname")
+                .lastname("lastname")
+                .street("street")
+                .zipcode("zipcode")
+                .city("city")
+                .email("email")
+                .phone("phone")
+                .cartId(1L)
+                .shipmentId(1L)
+                .paymentId(1L)
+                .build();
     }
 }

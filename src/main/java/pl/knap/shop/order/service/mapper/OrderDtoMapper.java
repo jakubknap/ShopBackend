@@ -9,12 +9,12 @@ public class OrderDtoMapper {
 
     public static List<OrderListDto> mapToOrderListDto(List<Order> ordersForCustomer) {
         return ordersForCustomer.stream()
-                                .map(order -> new OrderListDto(
-                                        order.getId(),
-                                        order.getPlaceDate(),
-                                        order.getOrderStatus()
-                                             .getValue(),
-                                        order.getGrossValue()))
-                                .toList();
+                .map(order -> new OrderListDto(
+                        order.getId(),
+                        order.getPlaceDate(),
+                        order.getOrderStatus()
+                                .getValue(),
+                        order.getGrossValue()))
+                .toList();
     }
 }

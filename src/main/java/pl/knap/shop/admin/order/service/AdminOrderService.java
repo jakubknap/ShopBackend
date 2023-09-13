@@ -25,24 +25,16 @@ public class AdminOrderService {
     private final EmailNotificationForStatusChange emailNotificationForStatusChange;
 
     public Page<AdminOrder> getOrders(Pageable pageable) {
-        return orderRepository.findAll(
-                PageRequest.of(
-                        pageable.getPageNumber(),
-                        pageable.getPageSize(),
-                        Sort.by("id")
-                            .descending())
-                                      );
+        return orderRepository.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id").descending()));
     }
 
     public AdminOrder getOrder(Long id) {
-        return orderRepository.findById(id)
-                              .orElseThrow();
+        return orderRepository.findById(id).orElseThrow();
     }
 
     @Transactional
     public void patchOrder(Long id, Map<String, String> values) {
-        AdminOrder adminOrder = orderRepository.findById(id)
-                                               .orElseThrow();
+        AdminOrder adminOrder = orderRepository.findById(id).orElseThrow();
         pathValues(adminOrder, values);
     }
 
@@ -65,9 +57,9 @@ public class AdminOrderService {
 
     private void logStatusChange(Long orderId, OrderStatus oldStatus, OrderStatus newStatus) {
         adminOrderLogRepository.save(AdminOrderLog.builder()
-                                                  .created(LocalDateTime.now())
-                                                  .orderId(orderId)
-                                                  .note("Zmiana statusu zamówienia z " + oldStatus.getValue() + " na " + newStatus.getValue())
-                                                  .build());
+                .created(LocalDateTime.now())
+                .orderId(orderId)
+                .note("Zmiana statusu zamówienia z " + oldStatus.getValue() + " na " + newStatus.getValue())
+                .build());
     }
 }

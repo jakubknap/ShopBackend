@@ -30,11 +30,8 @@ public class Cart {
             items = new ArrayList<>();
         }
         items.stream()
-             .filter(item -> Objects.equals(cartItem.getProduct()
-                                                    .getId(),
-                                            item.getProduct()
-                                                .getId()))
-             .findFirst()
-             .ifPresentOrElse(item -> item.setQuantity(item.getQuantity() + 1), () -> items.add(cartItem));
+                .filter(item -> Objects.equals(cartItem.getProduct().getId(), item.getProduct().getId()))
+                .findFirst()
+                .ifPresentOrElse(item -> item.setQuantity(item.getQuantity() + 1), () -> items.add(cartItem));
     }
 }

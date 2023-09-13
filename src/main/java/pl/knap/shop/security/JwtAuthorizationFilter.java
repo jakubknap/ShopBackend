@@ -38,7 +38,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             return;
         }
         SecurityContextHolder.getContext()
-                             .setAuthentication(authentication);
+                .setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }
 
@@ -46,9 +46,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(TOKEN_HEADER);
         if (token != null && token.startsWith(TOKEN_PREFIX)) {
             String id = JWT.require(Algorithm.HMAC256(secret))
-                           .build()
-                           .verify(token.replace(TOKEN_PREFIX, ""))
-                           .getSubject();
+                    .build()
+                    .verify(token.replace(TOKEN_PREFIX, ""))
+                    .getSubject();
             if (id != null) {
                 ShopUserDetails userDetails = (ShopUserDetails) userDetailsService.loadUserByUsername(id);
                 return new UsernamePasswordAuthenticationToken(userDetails.getId(), null, userDetails.getAuthorities());

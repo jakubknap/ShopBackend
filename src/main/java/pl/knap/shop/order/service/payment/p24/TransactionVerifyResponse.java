@@ -11,5 +11,6 @@ public class TransactionVerifyResponse {
 
     private Data data;
 
-    record Data(String status) {}
+    record Data(String status) {
+    }
 }

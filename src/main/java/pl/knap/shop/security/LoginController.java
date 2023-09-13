@@ -51,7 +51,7 @@ public class LoginController {
     @PostMapping("/register")
     public Token register(@RequestBody @Valid RegisterCredentials registerCredentials) {
         if (!registerCredentials.getPassword()
-                                .equals(registerCredentials.getRepeatPassword())) {
+                .equals(registerCredentials.getRepeatPassword())) {
             throw new RegisterException("Hasła nie są identyczne");
         }
 
@@ -59,35 +59,35 @@ public class LoginController {
             throw new RegisterException("Taki użytkownik już istnieje");
         }
         userRepository.save(User.builder()
-                                .username(registerCredentials.getUsername())
-                                .password("{bcrypt}" + new BCryptPasswordEncoder().encode(registerCredentials.getPassword()))
-                                .enabled(true)
-                                .authorities(List.of(UserRole.ROLE_CUSTOMER))
-                                .build());
+                .username(registerCredentials.getUsername())
+                .password("{bcrypt}" + new BCryptPasswordEncoder().encode(registerCredentials.getPassword()))
+                .enabled(true)
+                .authorities(List.of(UserRole.ROLE_CUSTOMER))
+                .build());
         return authenticate(registerCredentials.getUsername(), registerCredentials.getPassword());
     }
 
     private Token authenticate(String username, String password) {
         User user = userRepository.findByUsername(username)
-                                  .orElseThrow();
+                .orElseThrow();
 
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), password));
 
         ShopUserDetails principal = (ShopUserDetails) authenticate.getPrincipal();
 
         String token = JWT.create()
-                          .withSubject(String.valueOf(principal.getId()))
-                          .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
-                          .sign(Algorithm.HMAC256(secret));
+                .withSubject(String.valueOf(principal.getId()))
+                .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
+                .sign(Algorithm.HMAC256(secret));
         return new Token(token,
-                         principal.getAuthorities()
-                                  .stream()
-                                  .map(grantedAuthority -> grantedAuthority.getAuthority())
-                                  .filter(s -> UserRole.ROLE_ADMIN.name()
-                                                                  .equals(s))
-                                  .map(s -> true)
-                                  .findFirst()
-                                  .orElse(false));
+                principal.getAuthorities()
+                        .stream()
+                        .map(grantedAuthority -> grantedAuthority.getAuthority())
+                        .filter(s -> UserRole.ROLE_ADMIN.name()
+                                .equals(s))
+                        .map(s -> true)
+                        .findFirst()
+                        .orElse(false));
     }
 
     @Getter

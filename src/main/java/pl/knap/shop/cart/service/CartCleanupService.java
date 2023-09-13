@@ -23,11 +23,10 @@ public class CartCleanupService {
     @Transactional
     @Scheduled(cron = "${app.cart.cleanup.expression}")
     public void cleanupOldCarts() {
-        List<Cart> carts = cartRepository.findByCreatedLessThan(LocalDateTime.now()
-                                                                             .minusDays(3));
+        List<Cart> carts = cartRepository.findByCreatedLessThan(LocalDateTime.now().minusDays(3));
         List<Long> ids = carts.stream()
-                              .map(Cart::getId)
-                              .toList();
+                .map(Cart::getId)
+                .toList();
         log.info("Stare koszyki {}", carts.size());
         if (!ids.isEmpty()) {
             cartItemRepository.deleteAllByCartIdIn(ids);

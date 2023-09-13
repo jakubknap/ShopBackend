@@ -38,8 +38,8 @@ public class PaymentMethodP24Config {
     @Bean
     public WebClient p24Client() {
         return WebClient.builder()
-                        .filter(ExchangeFilterFunctions.basicAuthentication(posId.toString(), testMode ? testSecretKey : secretKey))
-                        .baseUrl(testMode ? testApiUrl : apiUrl)
-                        .build();
+                .filter(ExchangeFilterFunctions.basicAuthentication(posId.toString(), testMode ? testSecretKey : secretKey))
+                .baseUrl(testMode ? testApiUrl : apiUrl)
+                .build();
     }
 }

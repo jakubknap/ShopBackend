@@ -17,20 +17,18 @@ class EmailNotificationForStatusChange {
     void sendEmailNotification(OrderStatus newStatus, AdminOrder adminOrder) {
         if (newStatus == OrderStatus.PROCESSING) {
             sendEmail(adminOrder.getEmail(), "Zamówienie numer: " + adminOrder.getId() + " zmieniło status na: " + newStatus.getValue(), createProcessingEmailMessage(adminOrder.getId(),
-                                                                                                                                                     newStatus));
-        }
-        else if (newStatus == OrderStatus.COMPLETED) {
+                    newStatus));
+        } else if (newStatus == OrderStatus.COMPLETED) {
             sendEmail(adminOrder.getEmail(), "Zamówienie numer:" + adminOrder.getId() + " zmieniło status na: " + newStatus.getValue(), createCompletedEmailMessage(adminOrder.getId(),
-                                                                                                                                                     newStatus));
-        }
-        else if (newStatus == OrderStatus.REFUND) {
+                    newStatus));
+        } else if (newStatus == OrderStatus.REFUND) {
             sendEmail(adminOrder.getEmail(), "Zamówienie numer:" + adminOrder.getId() + " zmieniło status na: " + newStatus.getValue(), createRefundEmailMessage(adminOrder.getId(),
-                                                                                                                                                     newStatus));
+                    newStatus));
         }
     }
 
     private void sendEmail(String email, String subject, String message) {
         emailClientService.getInstance()
-                          .send(email, subject, message);
+                .send(email, subject, message);
     }
 }

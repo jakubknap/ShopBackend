@@ -15,6 +15,8 @@ import pl.knap.shop.common.repository.ProductRepository;
 
 import java.util.List;
 
+import static pl.knap.shop.category.service.mapper.ProductListMapper.getProductListDtos;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
@@ -32,21 +34,5 @@ public class CategoryService {
         Page<Product> page = productRepository.findAllByCategoryId(category.getId(), pageable);
         List<ProductListDto> productListDtos = getProductListDtos(page);
         return new CategoryProductsDto(category, new PageImpl<>(productListDtos, pageable, page.getTotalElements()));
-    }
-
-    private List<ProductListDto> getProductListDtos(Page<Product> page) {
-        return page.getContent()
-                   .stream()
-                   .map(product -> ProductListDto.builder()
-                                                 .id(product.getId())
-                                                 .name(product.getName())
-                                                 .description(product.getDescription())
-                                                 .price(product.getPrice())
-                                                 .salePrice(product.getSalePrice())
-                                                 .currency(product.getCurrency())
-                                                 .image(product.getImage())
-                                                 .slug(product.getSlug())
-                                                 .build())
-                   .toList();
     }
 }

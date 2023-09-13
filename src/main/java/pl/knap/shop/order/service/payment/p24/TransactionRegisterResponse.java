@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class TransactionRegisterResponse {
     private Data data;
 
-    record Data(String token) {}
+    record Data(String token) {
+    }
 }

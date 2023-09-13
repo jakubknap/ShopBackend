@@ -26,10 +26,10 @@ public class ReviewController {
 
     private Review mapToReview(ReviewDto reviewDto) {
         return Review.builder()
-                     .authorName(cleanContent(reviewDto.authorName()))
-                     .productId(reviewDto.productId())
-                     .content(cleanContent(reviewDto.content()))
-                     .build();
+                .authorName(cleanContent(reviewDto.authorName()))
+                .productId(reviewDto.productId())
+                .content(cleanContent(reviewDto.content()))
+                .build();
     }
 
     private String cleanContent(String text) {

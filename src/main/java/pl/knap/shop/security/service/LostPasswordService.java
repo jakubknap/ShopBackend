@@ -28,23 +28,23 @@ public class LostPasswordService {
     @Transactional
     public void sendLostPasswordLink(EmailObject email) {
         User user = userRepository.findByUsername(email.getEmail())
-                                  .orElseThrow(() -> new RuntimeException("Taki email nie istnieje"));
+                .orElseThrow(() -> new RuntimeException("Taki email nie istnieje"));
         String hash = generateHashForLostPassword(user);
         user.setHash(hash);
         user.setHashDate(LocalDateTime.now());
         emailClientService.getInstance()
-                          .send(email.getEmail(), "Zresetuj hasło", createMessage(createLink(hash)));
+                .send(email.getEmail(), "Zresetuj hasło", createMessage(createLink(hash)));
     }
 
     @Transactional
     public void changePassword(ChangePassword changePassword) {
         if (!Objects.equals(changePassword.getPassword(),
-                            changePassword.getRepeatPassword())) {
+                changePassword.getRepeatPassword())) {
             throw new RuntimeException("Hasła nie są takie same");
         }
         User user = userRepository.findByHash(changePassword.getHash())
-                                  .orElseThrow(() -> new
-                                          RuntimeException("Nieprawidłowy link"));
+                .orElseThrow(() -> new
+                        RuntimeException("Nieprawidłowy link"));
         if (user.getHashDate()
                 .plusMinutes(10)
                 .isAfter(LocalDateTime.now())) {
@@ -52,17 +52,16 @@ public class LostPasswordService {
                     BCryptPasswordEncoder().encode(changePassword.getPassword()));
             user.setHash(null);
             user.setHashDate(null);
-        }
-        else {
+        } else {
             throw new RuntimeException("Link stracił ważność");
         }
     }
 
     private String createMessage(String hashLink) {
         return "Wygenerowaliśmy dla Ciebie link do zmiany hasła" +
-               "\n\nKliknij link, żeby zresetować hasło: " +
-               "\n" + hashLink +
-               "\n\nDziękujemy.";
+                "\n\nKliknij link, żeby zresetować hasło: " +
+                "\n" + hashLink +
+                "\n\nDziękujemy.";
     }
 
     private String createLink(String hash) {
@@ -71,7 +70,7 @@ public class LostPasswordService {
 
     private String generateHashForLostPassword(User user) {
         String toHash = user.getId() + user.getUsername() + user.getPassword() +
-                        LocalDateTime.now();
+                LocalDateTime.now();
         return DigestUtils.sha256Hex(toHash);
     }
 }

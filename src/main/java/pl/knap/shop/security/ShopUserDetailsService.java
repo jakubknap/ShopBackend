@@ -20,8 +20,7 @@ public class ShopUserDetailsService implements UserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findById(Long.parseLong(username))
-                                  .orElseThrow();
+        User user = userRepository.findById(Long.parseLong(username)).orElseThrow();
         ShopUserDetails shopUserDetails = new ShopUserDetails(user.getUsername(),
                                                               user.getPassword(),
                                                               user.getAuthorities()

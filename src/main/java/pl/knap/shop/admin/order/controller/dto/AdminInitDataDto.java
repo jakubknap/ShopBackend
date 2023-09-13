@@ -8,5 +8,5 @@ import java.util.Map;
 @Getter
 @AllArgsConstructor
 public class AdminInitDataDto {
-    private Map<String, String> orderStatues;
+    private Map<String, String> orderStatuses;
 }

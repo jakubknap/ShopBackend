@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static pl.knap.shop.admin.common.utils.SlugifyUtils.slugifySlug;
+import static pl.knap.shop.admin.product.controller.mapper.AdminProductMapper.mapAdminProduct;
 
 @RestController
 @RequiredArgsConstructor
@@ -70,22 +70,7 @@ public class AdminProductController {
     public ResponseEntity<Resource> serveFiles(@PathVariable String filename) throws IOException {
         Resource resource = productImageService.serveFiles(filename);
         return ResponseEntity.ok()
-                             .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(filename)))
-                             .body(resource);
-    }
-
-    private AdminProduct mapAdminProduct(AdminProductDto adminProductDto, Long id) {
-        return AdminProduct.builder()
-                           .id(id)
-                           .name(adminProductDto.getName())
-                           .description(adminProductDto.getDescription())
-                           .fullDescription(adminProductDto.getFullDescription())
-                           .categoryId(adminProductDto.getCategoryId())
-                           .price(adminProductDto.getPrice())
-                           .salePrice(adminProductDto.getSalePrice())
-                           .currency(adminProductDto.getCurrency())
-                           .image(adminProductDto.getImage())
-                           .slug(slugifySlug(adminProductDto.getSlug()))
-                           .build();
+                .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(filename)))
+                .body(resource);
     }
 }

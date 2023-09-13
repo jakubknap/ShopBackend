@@ -37,9 +37,9 @@ public class OrderController {
     @GetMapping("/initData")
     public InitOrder initData() {
         return InitOrder.builder()
-                        .shipments(shipmentService.getShipments())
-                        .payments(paymentService.getPayments())
-                        .build();
+                .shipments(shipmentService.getShipments())
+                .payments(paymentService.getPayments())
+                .build();
     }
 
     @GetMapping

@@ -29,8 +29,7 @@ public class PaymentMethodP24 {
                                                                       .retrieve()
                                                                       .onStatus(HttpStatusCode::is4xxClientError,
                                                                                 clientResponse -> {
-                                                                                    log.error("Coś poszło źle: " + clientResponse.statusCode()
-                                                                                                                                 .value());
+                                                                                    log.error("Coś poszło źle: " + clientResponse.statusCode().value());
                                                                                     return Mono.empty();
                                                                                 })
                                                                       .toEntity(TransactionRegisterResponse.class)
