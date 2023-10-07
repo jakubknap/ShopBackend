@@ -60,6 +60,7 @@ And for the administrator: https://shopfrontend-production-f14c.up.railway.app/a
  ```bash
   CREATE DATABASE shop
 ```
+- Manually create a directory 'data\productImages' in the root directory of the application
 - To take full advantage of the potential of ap liking you must run it with the following parameters:
  ```bash
 <this is for sending email>.
